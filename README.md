@@ -1,7 +1,7 @@
-#Apache Module for Kiwix & ZIM files
+# Apache Module for Kiwix & ZIM files
 This is the home of what's currently a proof-of-concept (p-o-c) experiment to create a module for Apache 2 Web Servers that serves content from ZIM files.
 
-The aim is to provide similar functionality to `kiwix-serve` where practical. 
+The aim is to provide similar functionality to [`kiwix-serve`](https://github.com/kiwix/kiwix-tools/tree/master/src/server "Kiwix Server source code") where practical. 
 ## Prerequisites
 - `zimlib` available as a Debian package
 - Apache Server development environment
@@ -28,7 +28,7 @@ LoadModule example_module      /usr/lib/apache2/modules/mod_example.so
 Run `sudo service apache restart`
 
 ## Testing / using the new module
-At the time of writing, the module is simply configured to `[URL]/example` and lists files in a known zim file called `wikipedia.zim`. Visit `http://localhost/example` to see it in action. However, first provide a zim file in one of the document folders of the Apache Server (this might not matter - TBD), on the test machine `/var/www/html/`. A small zim file such as Ray Charles http://download.kiwix.org/zim/wikipedia/wikipedia_en_ray_charles_2013-03.zim will do.
+At the time of writing, the module is simply configured to `[URL]/example` and lists files in a known zim file called `wikipedia.zim`. Visit http://localhost/example to see it in action. However, first provide a zim file in one of the document folders of the Apache Server (this might not matter - TBD), on the test machine `/var/www/html/`. A small zim file such as Ray Charles http://download.kiwix.org/zim/wikipedia/wikipedia_en_ray_charles_2013-03.zim will do.
 
 ## Known limitations
 Here are our known limitations, some will be removed or addressed as we enhance the code.
