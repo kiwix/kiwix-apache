@@ -38,3 +38,8 @@ Here are our known limitations, some will be removed or addressed as we enhance 
 - No logging and no integration with Apache logging or error reporting
 - No way to test the functionality except interactively and manually
 - The build process creates a non-portable library (according the the output of the build)
+
+## Acknowledgements
+Thank you to various people who provided help both directly and indirectly.
+- For demonstrating how to compile and build an Apache module in `C++`: http://stackoverflow.com/questions/42605138/how-can-i-write-an-apache-module-in-c
+- Fellow Kiwix contributors for helping integrate `zimlib` into the code and for what else they're about to help with :)
