@@ -37,15 +37,7 @@ static int kiwix_handler(request_rec *r) {
 	
 	kiwix::Reader *reader = NULL;
 	string zimpath = "/var/www/html/wikipedia.zim";
-	// TODO: parse the URL to obtain the requested object
-
-	// Typical name of an object e.g. of a default page: 
-	// http://localhost/kiwix/localcontent/A/index.html
 	string urlStr = "";
-
-	
-	// TODO: if the requested object is the default, redirect the caller to
-	// the default (home) page of the ZIM
 
 	bool found = false;
 
@@ -56,7 +48,6 @@ static int kiwix_handler(request_rec *r) {
         	"full url = %s, kiwix url = %s",
         	fullUrl.c_str(), url.c_str());
 	char& back = url.back();
-	// url = "I/m/Africa_HIV-AIDS_300px.png";	
 	try {
 		zim::File f(zimpath);
 		reader = new kiwix::Reader(zimpath);
@@ -76,11 +67,7 @@ static int kiwix_handler(request_rec *r) {
                                                      article.good(), article.isRedirect(), article.getLongUrl().c_str());
 					article = article.getRedirectArticle();
 				}
-				// apr_psprintf(r->pool, "%s", article.getLongUrl().c_str());
-				// ap_set_content_type(r, "text/html");
-				// apr_table_setn(r->headers_out, "Location", "/kiwix/A/Joliba.html"); //article.getLongUrl().c_str());
 				apr_table_setn(r->headers_out, "Location", apr_pstrdup(r->pool, article.getLongUrl().c_str()));
- // article.getLongUrl().c_str());
 				return HTTP_MOVED_TEMPORARILY;
 			} else {
 				/* If redirect */
@@ -97,11 +84,13 @@ static int kiwix_handler(request_rec *r) {
 						+ "</title><!--" + article.getLongUrl() + "--></head><body>" 
 						+ content + "</body></html>";
 				} 
-				ap_rwrite(article.getData().data(), article.getArticleSize(), r);  //ap_rputs(content.c_str(), r);
+				ap_rwrite(article.getData().data(), article.getArticleSize(), r); 
 			}
 		}
 		else {
+			// This is useful for debudding and can probably be removed as the code matures.
 			ap_set_content_type(r, "text/plain");
+			ap_rputs("Element not found, the ZIM file contains\n", r);
 			for(zim::File::const_iterator it = f.begin(); it != f.end(); ++it) {
 				ap_rputs((it->getMimeType() + " - " + it->getLongUrl() + " - " + it->getTitle() + "--\n").c_str(), r);
 			}
