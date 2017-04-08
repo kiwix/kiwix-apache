@@ -11,6 +11,11 @@
 #include <iostream>
 #include <kiwix/reader.h>
 
+#include "dealWithOldZimUrls.h"
+
+/*
+Portions of the code used with permission of the original author @kelson
+*/
 
 extern "C" {
 #ifdef APLOG_USE_MODULE
@@ -32,7 +37,10 @@ static void register_hooks(apr_pool_t *pool) {
 }
 
 static int kiwix_handler(request_rec *r) {
-    if (!r->handler || strcmp(r->handler, "kiwix"))
+    std::string const& prefix = "kiwix";
+    std::string const& split_on = prefix + "/";
+
+    if (!r->handler || strcmp(r->handler, prefix.c_str()))
         return (DECLINED);
 
     kiwix::Reader *reader = NULL;
@@ -43,7 +51,7 @@ static int kiwix_handler(request_rec *r) {
 
     zim::Article article;
     string fullUrl(r->uri);
-    string url = fullUrl.substr(fullUrl.find("kiwix/") + string("kiwix/").length());
+    string url = fullUrl.substr(fullUrl.find(split_on) + string(split_on).length());
     ap_log_error(APLOG_MARK, APLOG_NOERRNO | APLOG_NOTICE, 0, r->server,
                  "full url = %s, kiwix url = %s",
                  fullUrl.c_str(), url.c_str());
@@ -84,7 +92,15 @@ static int kiwix_handler(request_rec *r) {
                               + "</title><!--" + article.getLongUrl() + "--></head><body>"
                               + content + "</body></html>";
                 }
-                ap_rwrite(article.getData().data(), article.getArticleSize(), r);
+                if (contentType.find("text/") != std::string::npos ||
+                        contentType.find("application/javascript") != std::string::npos ||
+                        contentType.find("application/json") != std::string::npos) {
+
+                    cleanUp(contentType, prefix, article, content);
+                    ap_rputs(content.c_str(), r);
+                } else {
+                    ap_rwrite(article.getData().data(), article.getArticleSize(), r);
+                }
             }
         }
         else {
