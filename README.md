@@ -44,4 +44,5 @@ Here are our known limitations, some will be removed or addressed as we enhance 
 ## Acknowledgements
 Thank you to various people who provided help both directly and indirectly.
 - For demonstrating how to compile and build an Apache module in `C++`: http://stackoverflow.com/questions/42605138/how-can-i-write-an-apache-module-in-c
-- Fellow Kiwix contributors for helping integrate `zimlib` into the code and for what else they're about to help with :)
+- Fellow Kiwix contributors for helping integrate `kiwixlib` into the code and for what else they're about to help with :)
+- A special thanks to @kelson for allowing reuse of various code from other kiwix projects so we can still release this with the Apache 2.0 license.
