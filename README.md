@@ -40,6 +40,7 @@ Here are our known limitations, some will be removed or addressed as we enhance 
 - Incomplete logging to the configured Apache error log e.g. `/var/log/apache2/error.log`
 - No way to test the functionality except interactively and manually
 - The build process creates a non-portable library (according the the output of the build)
+- Needs `kiwixlib` to be built on the same machine.
 
 ## Acknowledgements
 Thank you to various people who provided help both directly and indirectly.
