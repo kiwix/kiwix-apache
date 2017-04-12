@@ -23,19 +23,46 @@ LoadModule kiwix_module      /usr/lib/apache2/modules/mod_kiwix.so
     SetHandler kiwix
 </Location>
 ```
+### Configuring the module for the ZIM file and location
+This module uses a configuration section to specify the path and ZIM filename. 
+For now it's only been tested in a known frequently-used location on Apache running on Ubuntu. 
+The file is called `kiwix.conf` and a sample is available in the `sample-configs/` folder in this repo.
 
+Here's an example of the contents (which can be listed when the module is loaded using the `./config` page (see below).
+
+```apache
+ZimFile "wiktionary_fr_all_2016-11.zim"
+ZimPath "/var/www/html/"
+```
+You can copy this file to the relevant folder using `sudo` (as the config folder is owned by `root`) e.g.
+
+`sudo cp ./sample-configs/kiwix.conf /etc/apache2/conf-available/kiwix.conf`
+
+Similarly you need `sudo` to edit this file.
+`sudo vim /etc/apache2/conf-available/kiwix.conf`
+
+and finally, you'll need to have the relevant ZIM file in the specified location where `root` has access to it. Read access seems to be enough. 
+ 
 ## Loading the new module
 Run `sudo service apache restart`
 
 ## Testing / using the new module
-`[URL]/kiwix/` 
+The main root URL to serve Kiwix content is `[URL]/kiwix/`. The service will also respond to `[URL]/kiwix/config` that lists the config of the Kiwix module e.g.
 
-The module is curerntly designed to serve content from a single ZIM file, and serves content from a zim file called `wikipedia.zim`. Visit http://localhost/kiwix/ to see it in action. However, first provide a zim file in one of the document folders of the Apache Server (this might not matter - TBD), on the test machine `/var/www/html/`. A small zim file such as Ray Charles http://download.kiwix.org/zim/wikipedia/wikipedia_en_ray_charles_2013-03.zim will do.
+```apache
+ZimFile "wiktionary_fr_all_2016-11.zim"
+ZimPath "/var/www/html/"
+```
+
+and `[URL]/kiwix/status`
+which doesn't do much yet, but should at least give you some confidence the module is loaded provided it says:
+`I'm OK, thank you, and you?` 
+
+The module is curerntly designed to serve content from a single ZIM file, and serves content from the zim file configured in the config. Visit http://localhost/kiwix/ to see it in action. However, first provide a zim file in one of the document folders of the Apache Server (this might not matter - TBD), on the test machine `/var/www/html/`. A small zim file such as Ray Charles http://download.kiwix.org/zim/wikipedia/wikipedia_en_ray_charles_2013-03.zim will do.
 
 ## Known limitations
 Here are our known limitations, some will be removed or addressed as we enhance the code.
 
-- Hardcoded behaviour and ZIM file
 - Not designed for multi-use or repeated-use
 - Incomplete logging to the configured Apache error log e.g. `/var/log/apache2/error.log`
 - No way to test the functionality except interactively and manually
