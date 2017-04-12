@@ -46,7 +46,7 @@ Enable the additional config file. On Ubuntu use `sudo a2enconf` then specify th
 And finally, you'll need to have the relevant ZIM file in the specified location where `root` has access to it. Read access seems to be enough. 
  
 ## Loading the new module
-Run `sudo service apache restart`
+Run `sudo service apache2 restart`
 
 ## Testing / using the new module
 The main root URL to serve Kiwix content is `[URL]/kiwix/`. The service will also respond to `[URL]/kiwix/config` that lists the config of the Kiwix module e.g.
