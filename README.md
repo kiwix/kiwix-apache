@@ -41,7 +41,9 @@ You can copy this file to the relevant folder using `sudo` (as the config folder
 Similarly you need `sudo` to edit this file.
 `sudo vim /etc/apache2/conf-available/kiwix.conf`
 
-and finally, you'll need to have the relevant ZIM file in the specified location where `root` has access to it. Read access seems to be enough. 
+Enable the additional config file. On Ubuntu use `sudo a2enconf` then specify the `kiwix` configuration interactively. (To disable the config e.g. if the server refuses to start, use `sudo a2disconf` and remove the `kiwix` configuration.
+
+And finally, you'll need to have the relevant ZIM file in the specified location where `root` has access to it. Read access seems to be enough. 
  
 ## Loading the new module
 Run `sudo service apache restart`
