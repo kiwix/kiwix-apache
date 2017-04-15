@@ -79,7 +79,6 @@ static int kiwix_handler(request_rec *r) {
         return (DECLINED);
 
     kiwix::Reader *reader = NULL;
-    // string zimpath = "/var/www/html/wikipedia.zim";
     string zimpath = string(config.path) + string(config.zimfilename);
     ap_log_error(APLOG_MARK, APLOG_NOERRNO | APLOG_NOTICE, 0, r->server, " ZIM file including path: %s", zimpath.c_str());
     string urlStr = "";
@@ -106,7 +105,6 @@ static int kiwix_handler(request_rec *r) {
         return OK;
     }
     try {
-        zim::File f(zimpath);
         reader = new kiwix::Reader(zimpath);
         found = reader->getArticleObjectByDecodedUrl(url, article);
         if (found) {
@@ -153,14 +151,15 @@ static int kiwix_handler(request_rec *r) {
             }
         }
         else {
-            // This is useful for debudding and can probably be removed as the code matures.
+            // This is useful for debugging and can probably be removed as the code matures.
+            zim::File f(zimpath);
             ap_set_content_type(r, "text/plain");
             ap_rputs("Element not found, the ZIM file contains\n", r);
             for(zim::File::const_iterator it = f.begin(); it != f.end(); ++it) {
                 ap_rputs((it->getMimeType() + " - " + it->getLongUrl() + " - " + it->getTitle() + "--\n").c_str(), r);
             }
         }
-        reader = NULL;
+        delete reader; //  = NULL;
     }
     catch (const std::exception& e) {
         ap_rputs(e.what(), r);
