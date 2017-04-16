@@ -123,6 +123,7 @@ static int kiwix_handler(request_rec *r) {
                     article = article.getRedirectArticle();
                 }
                 apr_table_setn(r->headers_out, "Location", apr_pstrdup(r->pool, article.getLongUrl().c_str()));
+                delete reader;
                 return HTTP_MOVED_TEMPORARILY;
             } else {
                 /* If redirect */
@@ -159,7 +160,7 @@ static int kiwix_handler(request_rec *r) {
                 ap_rputs((it->getMimeType() + " - " + it->getLongUrl() + " - " + it->getTitle() + "--\n").c_str(), r);
             }
         }
-        delete reader; //  = NULL;
+        delete reader; 
     }
     catch (const std::exception& e) {
         ap_rputs(e.what(), r);
