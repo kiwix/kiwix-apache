@@ -17,7 +17,7 @@ The configuration process varies by platform. Debian provides tools to enable an
 ### On Debian
 Modules are included at startup of Apache. They're loaded from `/etc/apache2/mods-enabled/`. These are configured using the debian command `sudo a2enmod`. 
 
-A sample module that suits the current limited capabilities is the following. You can create a file /etc/apache2/mods-available/kiwix.load with this content, then run `sudo a2enmod kiwix` :
+A sample module that suits the current limited capabilities is the following. A copy is available in `/sample-modules/kiwix-module.conf` Using `sudo` you can copy this to `/etc/apache2/mods-available/kiwix.load`. Then to enable the module, run `sudo a2enmod kiwix` :
 
 ```apache
 LoadModule kiwix_module      /usr/lib/apache2/modules/mod_kiwix.so
