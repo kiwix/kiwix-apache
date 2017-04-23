@@ -36,7 +36,6 @@ extern "C" {
 
 static kiwix_config config;
 
-
 /* Handler for the "examplePath" directive */
 extern "C" const char *kiwix_set_path(cmd_parms *cmd, void *cfg, const char *arg)
 {
@@ -78,7 +77,6 @@ static int kiwix_handler(request_rec *r) {
     if (!r->handler || strcmp(r->handler, prefix.c_str()))
         return (DECLINED);
 
-    // kiwix::Reader *reader = NULL;
     string zimpath = string(config.path) + string(config.zimfilename);
     ap_log_error(APLOG_MARK, APLOG_NOERRNO | APLOG_NOTICE, 0, r->server, " ZIM file including path: %s", zimpath.c_str());
     string urlStr = "";
@@ -105,7 +103,6 @@ static int kiwix_handler(request_rec *r) {
         return OK;
     }
     try {
-        // reader = new kiwix::Reader(zimpath);
         kiwix::Reader reader = kiwix::Reader(zimpath);
         found = reader.getArticleObjectByDecodedUrl(url, article);
         if (found) {
@@ -133,7 +130,9 @@ static int kiwix_handler(request_rec *r) {
                 }
 
                 string contentType = string(article.getMimeType().data(), article.getMimeType().size());
-                ap_set_content_type(r, contentType.c_str());
+                ap_set_content_type(r, apr_pstrdup(r->pool, contentType.c_str()));
+                ap_log_error(APLOG_MARK, APLOG_NOERRNO | APLOG_NOTICE, 0, r->server, 
+                             "contentType:[%s]", contentType.c_str());
                 string content = string(article.getData().data(), article.getArticleSize()).c_str();
                 if (contentType == "text/html" && std::string::npos == content.find("<body>")) {
                     content = "<html><head><title>" + article.getTitle()
