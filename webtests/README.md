@@ -7,6 +7,14 @@ Currently I am experimenting with several approaches to test automation for the 
 
 * phantomjs: a lightweight, opensource JavaScript environment that can retrieve web pages directly. Their documentation indicates it's supported in travis-ci which we already use for various kiwix projects, so using phantomjs may align well with overall aspects of how kiwix does CB and automated testing.
 
+## phantomjs
+To run the tests, call the files with `phantomjs` e.g. `phantomjs gettitle.js`
+
+Known limitations
+
+* the contents aren't checked
+* the code doesn't set a return code so the caller doesn't know whether the 'test' was considered successful or not.
+
 # Known unresolved topics
 
 * How to deploy and run the kiwix-apache module. This is performed manually for now. See the main README for more information on how to build and deploy the module.
