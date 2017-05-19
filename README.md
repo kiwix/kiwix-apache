@@ -9,7 +9,11 @@ The aim is to provide similar functionality to [`kiwix-serve`](https://github.co
 
 ## Building the code
 The build is currently performed by a crude, limited bash script `build.sh`. The script requires `sudo` to install the module.
-For now, You'll have to manually edit the build.sh script to change the path where your `kiwix-build` has been compiled.
+For now, You'll have to tell the `build.sh` script where `kiwix-build` has been compiled as follows:
+
+`KIWIX_LIB=/home/julian/myopensourceprojects/kiwix-build/BUILD_native_dyn/INSTALL/ bash ./build.sh`
+
+Note: this needs to point to the INCLUDE folder which is generated as part of building kiwix-lib. This folder then has the include and library folders. We aim to improve the build once kiwix-lib is built automatically.
 
 ## Configuring Apache to enable the module
 The configuration process varies by platform. Debian provides tools to enable and disable modules, for other platforms hand-editing of the Apache Server configuration may be necessary.
