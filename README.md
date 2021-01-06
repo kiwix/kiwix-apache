@@ -1,3 +1,5 @@
+The project is stalled since many years and has not reached the v1.0. Archiving the project. Please contact @julianharty if you are interested to work on the project.
+
 # Apache Module for Kiwix & ZIM files
 This is the home of what's currently a proof-of-concept (p-o-c) experiment to create a module for Apache2.4 Web Servers that serves content from ZIM files.
 
